@@ -1,29 +1,59 @@
-<script>
-    function licz(nr) {
-      lmpp = 1000000; // 6 miejsc po przecinku
-      x = eval(document.form1.x.value);
-      y = eval(document.form1.y.value);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.3.2/math.min.js" integrity="sha512-/2Dkl7Y6FeUwM3HjYQAr3Dl+itEsnOx97T12SC+w5kMz6aXReBATWyLAjDp7U/ziGTYbKbxuwrGg0lz6Hk4aRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.1/index.min.css">
+  <link rel="stylesheet" href="style.css">
+  <title>Caluclator</title>
+</head>
+<body>
+  <main>
+    <h1>Calculator</h1>
+    <div id="calc">
+      <input type="text" placeholder="Expression" id="expression-input">
+      <div class="separator"></div>
+      <ul id="results">
+        <li id="result-example">
+          <div id="expression">2+2</div>
+          <div id="result">= 4</div>
+        </li>
+      </ul>
+    </div>
+  </main>
+  <div class="left-text">
+    <h1>Instrukcja obsługi kalkulatora</h1>
+    <p>Wpisz działanie do pola "Expression" i wciśnij "ENTER", aby otrzymać wynik, który wyświetli się pod spodem wraz z Twoim działaniem.</p>
+    <h2>Dzięki kalkulatorowi możesz obliczyć:</h2>
+      <p>- Dodawanie <br>
+      - Odejmowanie <br>
+      - Mnożenie <br>
+      - Dzielenie <br>
+      - Potęgowanie <br>
+    </p>
+    <h1>Miłego liczenia!</h1>
     
-      if (nr=="+") wynik = x+y;
-      if (nr=="-") wynik = x-y;
-      if (nr=="*") wynik = x*y;
-      if (nr=="/") wynik = x/y;
-      if (nr=="^") wynik = Math.pow(x,y);
-    
-      document.form1.operacja.value=nr;
-      document.form1.wynik.value=Math.round(wynik*lmpp)/lmpp;
-    }
-    </script>
-    
-    <form name="form1">
-    <input type="text" name="x" value="0" style="width:50px;" />
-    <input type="text" name="operacja" style="width:20px;" readonly="readonly" />
-    <input type="text" name="y" value="0" style="width:50px;" /> =
-    <input type="text" name="wynik" style="width:100px;" readonly="readonly" />
-    <br />
-    <input type="button" value="  +  " onclick="licz('+')" />
-    <input type="button" value="  -  " onclick="licz('-')" />
-    <input type="button" value="  x  " onclick="licz('*')" />
-    <input type="button" value="  /  " onclick="licz('/')" />
-    <input type="button" value="  ^  " onclick="licz('^')" />
-    </form>
+ 
+</div>
+  
+  <script>
+    const expressionInput = document.getElementById("expression-input");
+    const results = document.getElementById("results");
+    const resultExample = document.getElementById("result-example");
+    expressionInput.addEventListener("keypress", (e) => {
+      if (e.key != "Enter") return;
+      let res = math.evaluate(expressionInput.value);
+
+      let resultLi = resultExample.cloneNode(true);
+      resultLi.removeAttribute("id");
+      // resultLi.style.display = "flex";
+      resultLi.childNodes[1].innerHTML = expressionInput.value;
+      resultLi.childNodes[3].innerHTML = "= " + res;
+      results.prepend(resultLi);
+
+      expressionInput.value = "";
+    });
+  </script>
+</body>
+</html>
